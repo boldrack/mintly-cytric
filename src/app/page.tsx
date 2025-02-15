@@ -1,6 +1,6 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { Button } from "@/components/ui/button"
-import { PlayIcon, RocketIcon, WalletIcon } from "lucide-react"
+import { PlayIcon, RocketIcon } from "lucide-react"
 import Image from "next/image"
 
 import MintWidget from "./_components/mint-widget";

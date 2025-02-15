@@ -46,7 +46,7 @@ function MintWidgetForm ({handleSubmit, connected, loading, disabled}: MintWidge
         />
       </div>
 
-      <Button onClick={_ => handleSubmit(name, description, logoUrl)}
+      <Button onClick={() => handleSubmit(name, description, logoUrl)}
         disabled={!connected || disabled}
         className="bg-gradientbtn"
 

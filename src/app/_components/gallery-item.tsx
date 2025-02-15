@@ -5,7 +5,7 @@ interface NFTGalleryItemProps {
 }
 
 function NFTGalleryItem ({item}: NFTGalleryItemProps) {
-  const {logo, name, description, id} = item;
+  const {logo, name, description} = item;
   return (
     <div className="flex flex-col border border-[#1F2937] rounded-xl w-[200px] h-[200px]" >
       <div className="grow relative">

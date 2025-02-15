@@ -20,11 +20,6 @@ export async function storeNFTData(data: NFTItem): Promise<NFTItem> {
   return response.data;
 }
 
-interface NFTFormProps {
-  name: string;
-  description: string;
-  logoUrl: string;
-}
 
 export function useStoreNFTData() {
   return useMutation({
