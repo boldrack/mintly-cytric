@@ -1,10 +1,10 @@
 1. Add the API routes
-    /storeNFTData
-    /getNFTData/:id
-    /getNFTGallery/:owner
+    - /storeNFTData
+    - /getNFTData/:id
+    - /getNFTGallery/:owner
 
 2. Add the deployed API link
-https://52.52.68.110:5500
+https://mintly-cytric-be.onrender.com/
     
 3. Add the deployed frontend link
 https://mintly-cytric.vercel.app/
