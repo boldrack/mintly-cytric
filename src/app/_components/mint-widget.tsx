@@ -44,7 +44,7 @@ function MintWidget () {
     }
 
     // Handle fail state
-    const retData = await storeNFTData.mutateAsync({
+     await storeNFTData.mutateAsync({
       id: String(generatedTokenId), name, description, logo, owner: account.address}, {
         onSuccess: (data) => {
           setLastCreated(data);
@@ -55,7 +55,7 @@ function MintWidget () {
 
     const mintHash = await _mintToken(generatedTokenId, resolveTokenURI(generatedTokenId));
 
-    const receipt = await waitForTransactionReceipt(wagmiConfig, { hash: mintHash });
+    await waitForTransactionReceipt(wagmiConfig, { hash: mintHash });
 
     setShowSuccessCard(true);
     setLoading(false);
