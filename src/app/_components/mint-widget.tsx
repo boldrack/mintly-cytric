@@ -62,7 +62,7 @@ function MintWidget () {
       setShowSuccessCard(true);
       invalidateGallery(queryClient, account.address)
     } catch (error) {
-     setLastError('There was an issue minting your NFT') ;
+     setLastError((error as Error)) ;
     } finally {
       setLoading(false);
     }
