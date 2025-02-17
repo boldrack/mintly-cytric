@@ -10,8 +10,8 @@ import GalleryContainer from './_components/galler-container';
 
 function Home() {
   return (
-    <div className="home min-h-screen" style={{background: "linear-gradient(90deg, #000000 0%, #111827 100%);"}}>
-      <nav className="border border-[#1F2937] py-4 px-16 flex justify-between items-center">
+    <div className="home min-h-screen px-4 md:mx-auto " style={{background: "linear-gradient(90deg, #000000 0%, #111827 100%);"}}>
+      <nav className="border-b border-[#1F2937] py-4 px-16 flex justify-between items-center">
         <div className="flex gap-4">
           <Image src={`/logo.png`} alt="Logo" width={20} height={20} />
           <span className="text-white">NFT Mint</span>
@@ -25,7 +25,7 @@ function Home() {
         <h4 className="text-[48px] leading-[60px] font-bold">
           Discover &amp; Collect <br/>Extraordinary NFTs
         </h4>
-        <p className="text-sm">Enter the world of digital art and collectibles, Explore unique NFTs created
+        <p className="text-sm text-center">Enter the world of digital art and collectibles, Explore unique NFTs created
         by artists worldwide</p>
         <div className="actions flex gap-4">
           <Button className="bg-gradientbtn"><RocketIcon />Start Creating</Button>
@@ -36,12 +36,12 @@ function Home() {
       </section>
 
       <section className="flex justify-center">
-        <div className="min-w-[500px]">
+        <div className="w-full md:min-w-[500px]">
           <MintWidget />
         </div>
       </section>
 
-      <section className="text-white py-24 px-20">
+      <section className="text-white py-24 md:px-20">
         <h4 className="font-bold mb-10">Your NFT Gallery</h4>
         <GalleryContainer />
       </section>

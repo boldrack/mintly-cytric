@@ -16,7 +16,7 @@ function GalleryContainer () {
   if(!account.isConnected) 
     return <p 
       className="text-center border border-slate-600 rounded-md bg-slate-600/50
-      p-4 text-slate-300 font-semibold">Need connect your account</p>
+      p-4 text-slate-300">Connect your Wallet to view your NFT Gallery</p>
 
   if (isLoading || !gallery) return <p>Loading ..</p> 
 

@@ -23,8 +23,6 @@ function MintWidget () {
   const storeNFTData = useStoreNFTData();
 
   const _handleCreate = async (name: string, description: string, logo: string) => {
-    console.log('creating .. ', name, description, logo) // start loading 
-
     if(name.length === 0 || description.length == 0 || logo.length == 0)
       return
 
@@ -33,8 +31,9 @@ function MintWidget () {
     setLoading(true);
 
     const generatedTokenId = _generateTokenId();
-    //
-    // we loop until we get a valid number
+  
+    // we loop until we get a valid number, might be nice to have a fail safe threshold
+    // so we abort regardless if threshold is exceeded and non-existing id isn't found
     while (1) {
       console.log('generated number', generatedTokenId);
       const exists = await _checkTokenId(generatedTokenId);
@@ -62,7 +61,7 @@ function MintWidget () {
   }
   
   const resolveTokenURI = (tokenId: number) => {
-    return `http://localhost:5500/getNFTGallery${tokenId}`;
+    return `${process.env.NEXT_PUBLIC_BE_SERVER}/getNFTGallery/${tokenId}`;
   }
 
   const _generateTokenId = () => {
@@ -95,7 +94,7 @@ function MintWidget () {
     <div className="mt-16">
       {showSuccessCard && lastCreated ?
       <MintSuccessCard data={lastCreated} handleCreateAnother={_createAnother} />  : 
-      <Card className="border border-[#1F2937] p-8 bg-[#111827] text-white">
+      <Card className="border border-[#1F2937] px-4 py-8 bg-[#111827] text-white">
         <CardContent>
           <CardTitle> Mint Your NFT</CardTitle>
           <MintWidgetForm handleSubmit={_handleCreate} 
