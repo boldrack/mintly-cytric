@@ -10,14 +10,14 @@ import GalleryContainer from './_components/galler-container';
 
 function Home() {
   return (
-    <div className="home min-h-screen px-4 md:mx-auto " style={{background: "linear-gradient(90deg, #000000 0%, #111827 100%);"}}>
+    <div className="home min-h-screen px-4 md:mx-auto " 
+      style={{background: "linear-gradient(90deg, #000000 0%, #111827 100%)"}}>
       <nav className="border-b border-[#1F2937] py-4 px-16 flex justify-between items-center">
         <div className="flex gap-4">
           <Image src={`/logo.png`} alt="Logo" width={20} height={20} />
           <span className="text-white">NFT Mint</span>
         </div>
         <div className="connect">
-        {/**<Button> <WalletIcon className="size-6"/> Connect Wallet</Button>**/}
         <MintlyConnectButton />
         </div>
       </nav>
@@ -36,7 +36,7 @@ function Home() {
       </section>
 
       <section className="flex justify-center">
-        <div className="w-full md:min-w-[500px]">
+        <div className="w-full md:max-w-[500px]">
           <MintWidget />
         </div>
       </section>

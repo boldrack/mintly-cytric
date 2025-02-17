@@ -6,8 +6,9 @@ import { ContractConfig } from "@/lib/contract";
 import MintWidgetForm from "./mint-widget-form";
 import { useState } from "react";
 import { readContract, waitForTransactionReceipt} from "@wagmi/core";
-import { useStoreNFTData } from "@/lib/server";
+import { invalidateGallery, useStoreNFTData } from "@/lib/server";
 import MintSuccessCard from "./mint-success-card";
+import { useQueryClient } from "@tanstack/react-query";
 
 function MintWidget () {
 
@@ -21,6 +22,7 @@ function MintWidget () {
   const [loading, setLoading] = useState(false);
 
   const storeNFTData = useStoreNFTData();
+  const queryClient = useQueryClient();
 
   const _handleCreate = async (name: string, description: string, logo: string) => {
     if(name.length === 0 || description.length == 0 || logo.length == 0)
@@ -32,32 +34,38 @@ function MintWidget () {
 
     const generatedTokenId = _generateTokenId();
   
-    // we loop until we get a valid number, might be nice to have a fail safe threshold
-    // so we abort regardless if threshold is exceeded and non-existing id isn't found
-    while (1) {
-      console.log('generated number', generatedTokenId);
-      const exists = await _checkTokenId(generatedTokenId);
-      console.log('exists: ', exists);
-      if (exists) continue;
-      break;
-    }
+    try {
+      // we loop until we get a valid number, might be nice to have a fail safe threshold
+      // so we abort regardless if threshold is exceeded and non-existing id isn't found
+      while (1) {
+        console.log('generated number', generatedTokenId);
+        const exists = await _checkTokenId(generatedTokenId);
+        console.log('exists: ', exists);
+        if (exists) continue;
+        break;
+      }
 
-    // Handle fail state
-     await storeNFTData.mutateAsync({
-      id: String(generatedTokenId), name, description, logo, owner: account.address}, {
-        onSuccess: (data) => {
-          setLastCreated(data);
-        },
-        onError: (error) => setLastError(error),
+      // NOTE: Ideally both our server call and chain call is supposed to be atomic 
+      // where either both completes or neither. and a means to rollback in such cases
+      //
+      // send on chain, and wait for transaction
+      const mintHash = await _mintToken(generatedTokenId, resolveTokenURI(generatedTokenId));
+      await waitForTransactionReceipt(wagmiConfig, { hash: mintHash });
+
+      // Handle fail state
+      await storeNFTData.mutateAsync({
+        id: String(generatedTokenId), name, description, logo, owner: account.address}, {
+          onSuccess: (data) => setLastCreated(data),
+          onError: (error) => setLastError(error),
       });
 
-
-    const mintHash = await _mintToken(generatedTokenId, resolveTokenURI(generatedTokenId));
-
-    await waitForTransactionReceipt(wagmiConfig, { hash: mintHash });
-
-    setShowSuccessCard(true);
-    setLoading(false);
+      setShowSuccessCard(true);
+      invalidateGallery(queryClient, account.address)
+    } catch (error) {
+     setLastError('There was an issue minting your NFT') ;
+    } finally {
+      setLoading(false);
+    }
   }
   
   const resolveTokenURI = (tokenId: number) => {

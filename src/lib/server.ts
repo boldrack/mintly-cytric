@@ -1,7 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BE_SERVER ?? `http://localhost:5500`;
+console.log('BE SERVER: ', process.env.NEXT_PUBLIC_BE_SERVER);
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BE_SERVER;
 axios.defaults.timeout = 10_000;
 
 export async function getNftData(tokenId: number): Promise<NFTItem> {
@@ -35,4 +37,10 @@ export function useGalleryData(owner: `0x${string}` | undefined, enabled: boolea
     queryFn: () => getGalleryData(owner),
     enabled: enabled
   })
+}
+
+export function invalidateGallery(client: QueryClient, owner: string) {
+  client.invalidateQueries({
+    queryKey: ['gallery-data', owner]
+  });
 }
